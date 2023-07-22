@@ -27,4 +27,4 @@ async def get_help(request):
 
 
 if __name__ == '__main__':
-    app.run(port=8020)
+    app.run(port=8020, dev=True)

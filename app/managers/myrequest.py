@@ -1,10 +1,11 @@
+import os
 from pprint import pprint
 
 import aiohttp
 import asyncio
 
 class Request():
-    
+
     def __init__(self) -> None:
         # api key
         # cache backend configuration
@@ -42,7 +43,8 @@ class Request():
         url = f'https://api.github.com/orgs/{orgname}/repos'
         return await cls._fetch(url)
 
-
+class CachedRequest(Request):
+    pass
 
 if __name__ == '__main__':
     result = asyncio.run(Request.fetch_user('miguelgrinberg'))

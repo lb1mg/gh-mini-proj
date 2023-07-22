@@ -12,10 +12,9 @@ users_bp = Blueprint('users_bp', url_prefix='/user')
 
 @users_bp.get('/<username:str>')
 async def get_user_info(request, username:str):
-    result = await Request.fetch_user(username)
-    pprint(result)
-    print(type(result))
-    return await render('user.html', context={'result':result})
+    user_info = await Request.fetch_user(username)
+    user_repos = await Request.fetch_user_repos(username)
+    return await render('user.html', context={'user_info':user_info, 'user_repos':user_repos})
 
 
 @users_bp.get('/compare')
