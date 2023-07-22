@@ -3,13 +3,9 @@ from pprint import pprint
 
 import aiohttp
 import asyncio
+from aiohttp_client_cache import CachedSession, SQLiteBackend, RedisBackend
 
 class Request():
-
-    def __init__(self) -> None:
-        # api key
-        # cache backend configuration
-        pass
     
     @classmethod
     async def _fetch(cls, url:str):
@@ -44,10 +40,18 @@ class Request():
         return await cls._fetch(url)
 
 class CachedRequest(Request):
-    pass
+    
+    cache = RedisBackend()
+    
+    @classmethod
+    async def _fetch(cls, url:str):
+        async with CachedSession(cache=cls.cache) as session:
+            async with session.get(url) as res:
+                # log status here
+                return await res.json()
 
 if __name__ == '__main__':
-    result = asyncio.run(Request.fetch_user('miguelgrinberg'))
+    result = asyncio.run(CachedRequest.fetch_user('miguelgrinberg'))
     # result = asyncio.run(fetch_user_repos('miguelgrinberg'))
     # result = asyncio.run(fetch_repo('miguelgrinberg', 'microblog'))
     # result = asyncio.run(fetch_repo('google', 'leveldb'))
