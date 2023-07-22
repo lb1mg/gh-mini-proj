@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare User</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+</head>
+<body>
+    <div class="d-flex justify-content-around gap-2 m-2">
+    <div class="card" style="width: 500px">
+        <img src="{{user1['avatar_url']}}" alt="">
+        <div class="card-body" >
+          <ul class="list-group">
+            {% for k, v in user1.items() %}
+            
+            <li class="list-group-item text-bg-light fw-bold">{{k}}</li>
+            <li class="list-group-item">{{v}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      
+      {% for k, v in user1.items %}
+        {{k}} : {{v}}
+      {% endfor %}
+
+      {% for k, v in user2.items %}
+        {{k}} : {{v}}
+      {% endfor %}
+
+      <div class="card" style="width: 500px">
+        <img src="{{user2['avatar_url']}}" alt="">
+        <div class="card-body" >
+          <ul class="list-group">
+            {% for k, v in user2.items() %}
+            
+            <li class="list-group-item text-bg-light fw-bold">{{k}}</li>
+            <li class="list-group-item">{{v}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+</body>
+</html>
