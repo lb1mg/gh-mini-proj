@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+# print(f"testing dotenv: {os.getenv('GITHUB_PAT')}")
+
 from sanic import Sanic
 from sanic.response import text, json, redirect
 from sanic.exceptions import NotFound, BadRequest
@@ -24,7 +29,5 @@ async def get_index(request):
 async def get_help(request):
     return await render('help.html')
     
-
-
 if __name__ == '__main__':
-    app.run(port=8020, dev=True)
+    app.run(port=8000, dev=True)
