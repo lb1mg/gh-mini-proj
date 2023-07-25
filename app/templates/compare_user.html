@@ -12,37 +12,63 @@
     />
 </head>
 <body>
-    <div class="d-flex justify-content-around gap-2 m-2">
-    <div class="card" style="width: 500px">
-        <img src="{{user1['avatar_url']}}" alt="">
-        <div class="card-body" >
+    <div class="d-flex justify-content-center gap-2 m-2">
+      <div class="card" style="width: 400px">
+        <img src="{{user1_info['avatar_url']}}" alt="" />
+        <div class="card-body">
+          <p class="display-6 fw-bold">{{user1_info['name']}}</p>
+          <p>{{user1_info['bio']}}</p>
+          <ul class="list-group mb-2">
+            <li class="list-group-item text-bg-light fw-bold">Email</li>
+            <li class="list-group-item">{{user1_info['email']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Blog</li>
+            <li class="list-group-item">{{user1_info['blog']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Twitter</li>
+            <li class="list-group-item">{{user1_info['twitter_username']}}</li>
+          </ul>
           <ul class="list-group">
-            {% for k, v in user1.items() %}
-            
-            <li class="list-group-item text-bg-light fw-bold">{{k}}</li>
-            <li class="list-group-item">{{v}}</li>
-            {% endfor %}
+            <li class="list-group-item text-bg-light fw-bold">
+              Public Repos
+            </li>
+            <li class="list-group-item">{{user1_info['public_repos']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">
+              Public Gists
+            </li>
+            <li class="list-group-item">{{user1_info['public_gists']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Followers</li>
+            <li class="list-group-item">{{user1_info['followers']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Following</li>
+            <li class="list-group-item">{{user1_info['following']}}</li>
           </ul>
         </div>
       </div>
-      
-      {% for k, v in user1.items %}
-        {{k}} : {{v}}
-      {% endfor %}
 
-      {% for k, v in user2.items %}
-        {{k}} : {{v}}
-      {% endfor %}
-
-      <div class="card" style="width: 500px">
-        <img src="{{user2['avatar_url']}}" alt="">
-        <div class="card-body" >
+      <div class="card" style="width: 400px">
+        <img src="{{user2_info['avatar_url']}}" alt="" />
+        <div class="card-body">
+          <p class="display-6 fw-bold">{{user2_info['name']}}</p>
+          <p>{{user2_info['bio']}}</p>
+          <ul class="list-group mb-2">
+            <li class="list-group-item text-bg-light fw-bold">Email</li>
+            <li class="list-group-item">{{user2_info['email']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Blog</li>
+            <li class="list-group-item">{{user2_info['blog']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Twitter</li>
+            <li class="list-group-item">{{user2_info['twitter_username']}}</li>
+          </ul>
           <ul class="list-group">
-            {% for k, v in user2.items() %}
-            
-            <li class="list-group-item text-bg-light fw-bold">{{k}}</li>
-            <li class="list-group-item">{{v}}</li>
-            {% endfor %}
+            <li class="list-group-item text-bg-light fw-bold">
+              Public Repos
+            </li>
+            <li class="list-group-item">{{user2_info['public_repos']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">
+              Public Gists
+            </li>
+            <li class="list-group-item">{{user2_info['public_gists']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Followers</li>
+            <li class="list-group-item">{{user2_info['followers']}}</li>
+            <li class="list-group-item text-bg-light fw-bold">Following</li>
+            <li class="list-group-item">{{user2_info['following']}}</li>
           </ul>
         </div>
       </div>

@@ -14,7 +14,9 @@ users_bp = Blueprint('users_bp', url_prefix='/user')
 async def get_user_info(request, username:str):
     user_info = await CachedRequest.fetch_user(username)
     user_repos = await CachedRequest.fetch_user_repos(username)
-    return await render('user.html', context={'user_info':user_info, 'user_repos':user_repos})
+    user_events = await CachedRequest.fetch_user_events(username)
+    user_followers = await CachedRequest.fetch_user_followers(username)
+    return await render('user.html', context={'user_info':user_info, 'user_repos':user_repos, 'user_events':user_events, 'user_followers':user_followers})
 
 
 @users_bp.get('/compare')
@@ -27,8 +29,8 @@ async def compare(request):
         user1_info = await CachedRequest.fetch_user(user1)
         user2_info = await CachedRequest.fetch_user(user2)
         return await render('compare_user.html', context={
-            'user1':user1_info,
-            'user2':user2_info
+            'user1_info':user1_info,
+            'user2_info':user2_info
         })
     else:
         raise BadRequest()

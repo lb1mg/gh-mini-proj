@@ -12,49 +12,131 @@
     />
   </head>
   <body>
-    <div class="container my-4">
-      <div class="row">
-        <div class="col-4">
-          <div class="container d-flex justify-content-center">
-            <div class="card" style="width: 500px">
-              <img src="{{user_info['avatar_url']}}" alt="" />
-              <div class="card-body">
-                <ul class="list-group">
-                  {% for k, v in user_info.items() %}
-                  <li class="list-group-item text-bg-light fw-bold">{{k}}</li>
-                  <li class="list-group-item">{{v}}</li>
-                  {% endfor %}
-                </ul>
+    <div class="d-flex justify-content-center m-2">
+      <div class="d-flex gap-4 m-2">
+        <div class="d-flex flex-column gap-2">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex gap-4">
+                <div class="card">
+                  <img src="{{user_info['avatar_url']}}" alt="" style="width: 300px;"/>
+                  <div class="card-body">
+                    <p class="display-6 fw-bold">{{user_info['name']}}</p>
+                  <p>{{user_info['bio']}}</p>
+                  </div>
+                  
+                </div>
+
+                <div style="width: 300px">
+                  <ul class="list-group m-2">
+                    <li class="list-group-item text-bg-light fw-bold">Email</li>
+                    <li class="list-group-item">{{user_info['email']}}</li>
+                    <li class="list-group-item text-bg-light fw-bold">Blog</li>
+                    <li class="list-group-item">{{user_info['blog']}}</li>
+                    <li class="list-group-item text-bg-light fw-bold">
+                      Twitter
+                    </li>
+                    <li class="list-group-item">
+                      {{user_info['twitter_username']}}
+                    </li>
+                  </ul>
+                </div>
+
+                <div style="width: 300px">
+                  <ul class="list-group m-2">
+                    <li class="list-group-item text-bg-light fw-bold">
+                      Public Repos
+                    </li>
+                    <li class="list-group-item">
+                      {{user_info['public_repos']}}
+                    </li>
+                    <li class="list-group-item text-bg-light fw-bold">
+                      Public Gists
+                    </li>
+                    <li class="list-group-item">
+                      {{user_info['public_gists']}}
+                    </li>
+                    </ul>
+                    <ul class="list-group m-2">
+                    <li class="list-group-item text-bg-light fw-bold">
+                      Followers
+                    </li>
+                    <li class="list-group-item">{{user_info['followers']}}</li>
+                    <li class="list-group-item text-bg-light fw-bold">
+                      Following
+                    </li>
+                    <li class="list-group-item">{{user_info['following']}}</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-8">
-          <div class="d-flex flex-column gap-2 p-2">
-      {% for user_repo in user_repos %}
-      <div class="card">
-        <div class="card-body">
+      </div>
+    </div>
 
-          <p class="fw-bold">{{user_repo['full_name']}}</p>
-          <div class="d-flex flex-column">
-            <div><span class="fw-bold">Forks</span> <span>{{user_repo['forks_count']}}</span></div>
-            <div><span class="fw-bold">Open Issues</span> <span>{{user_repo['open_issues_count']}}</span></div>
-            <span class="fw-bold">Subscribers</span> <span>{{user_repo['subscribers_count']}}</span>
+    <div class="d-flex gap-4 m-2 justify-content-center">
+      <div class="d-flex flex-column gap-2">
+        <p class="fw-bold" >Followers</p>
+        {% for follower in user_followers %}
+        <div class="card" style="width:200px">
+          <img src="{{follower['avatar_url']}}" alt="" style="width: 198px" />
+          <div class="card-body">
+            <p class="fw-bold m-0">@{{follower['login']}}</p>
           </div>
-          
-      <div class="card-footer">
-          <p>{{user_repo['license']['name']}}</p>
         </div>
-          
-        </div>
-        
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-        </div>
-      </div>
-    </div>
 
-    
+      <div class="d-flex flex-column gap-2" style="width: 350px">
+        <p class="fw-bold" >Repos</p>
+        {% for user_repo in user_repos %}
+        <div class="card" style="width: 350px">
+          <div class="card-body">
+            <p class="fw-bold m-0">{{user_repo['full_name']}}</p>
+
+            <p>{{user_repo['description']}}</p>
+            <hr class="w-80" />
+            <ul class="list-group">
+              <li class="list-group-item text-bg-light fw-bold">Forks</li>
+              <li class="list-group-item">{{user_repo['forks_count']}}</li>
+              <li class="list-group-item text-bg-light fw-bold">Open Issues</li>
+              <li class="list-group-item">
+                {{user_repo['open_issues_count']}}
+              </li>
+              <li class="list-group-item text-bg-light fw-bold">Watchers</li>
+              <li class="list-group-item">{{user_repo['watchers_count']}}</li>
+            </ul>
+            {% if user_repo['license'] %}
+            <ul class="list-group mt-2">
+              <li class="list-group-item text-bg-light fw-bold">License</li>
+              <li class="list-group-item">{{user_repo['license']['name']}}</li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex flex-column gap-2">
+        <p class="fw-bold" >User Events</p>
+        {% for event in user_events %}
+        <div class="card" style="width: 350px">
+          <div class="card-body">
+            <ul class="list-group">
+              <li class="list-group-item text-bg-light fw-bold">Event</li>
+              <li class="list-group-item">{{event['type']}}</li>
+              <li class="list-group-item text-bg-light fw-bold">On</li>
+              <a href="{{event['repo']['url']}}"
+                ><li class="list-group-item">{{event['repo']['name']}} ↗</li></a
+              >
+              <li class="list-group-item text-bg-light fw-bold">At</li>
+              <li class="list-group-item">{{event['created_at']}}</li>
+            </ul>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </body>
 </html>

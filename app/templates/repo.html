@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>REPO NAME | Github</title>
+    <title>{{repo_info['full_name']}} | Github</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,18 +12,149 @@
     />
   </head>
   <body>
-    <div class="container d-flex justify-content-center">
-        <div class="card" style="width: 500px">
-       
-          <div class="card-body" >
+    <div class="card m-4">
+      <div class="card-body">
+        <div class="d-flex gap-2 justify-content-around">
+          <div style="width: 400px;">
+            <div class="card">
+              <div class="card-body">
+                <p class="display-5 fw-bold">{{repo_info['full_name']}}</p>
+            <p>
+              {{repo_info['description']}}
+            </p>
+            {% if repo_info['license'] %}
             <ul class="list-group">
-              {% for k, v in repo_info.items() %}
-              <li class="list-group-item text-bg-light fw-bold">{{k}}</li>
-              <li class="list-group-item">{{v}}</li>
-              {% endfor %}
+              <li class="list-group-item text-bg-light fw-bold">License</li>
+              <li class="list-group-item">{{repo_info['license']['name']}}</li>
+            </ul>
+            {% endif %}
+              </div>
+            </div>
+            
+          </div>
+
+          <div style="width: 300px;">
+            <ul class="list-group">
+              <li class="list-group-item text-bg-light fw-bold">Language</li>
+              <li class="list-group-item">{{repo_info['language']}}</li>
+              <li class="list-group-item text-bg-light fw-bold">Forks</li>
+              <li class="list-group-item">{{repo_info['forks']}}</li>
+              <li class="list-group-item text-bg-light fw-bold">Open Issues</li>
+              <li class="list-group-item">
+                {{repo_info['open_issues']}}
+              </li>
+              
             </ul>
           </div>
+
+          <div style="width: 300px;">
+            <ul class="list-group">
+              <li class="list-group-item text-bg-light fw-bold">Watchers</li>
+              <li class="list-group-item">{{repo_info['watchers']}}</li>
+              <li class="list-group-item text-bg-light fw-bold">Subscribers</li>
+              <li class="list-group-item">{{repo_info['subscribers_count']}}</li>
+              <li class="list-group-item text-bg-light fw-bold">Network Count</li>
+              <li class="list-group-item">{{repo_info['network_count']}}</li>
+            </ul>
+          </div>
+
+          <div style="width: 300px;">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <img src="{{repo_info['owner']['avatar_url']}}" alt="" style="width:300px;">
+              </li>
+              <li class="list-group-item text-bg-light fw-bold">Owner</li>
+              <li class="list-group-item">@{{repo_info['owner']['login']}}</li>
+            </ul>
+            
+          </div>
+
         </div>
-  </div>
+      </div>
+    </div>
+
+    <div class="d-flex m-2 gap-2 justify-content-around">
+      <div class="d-flex flex-column gap-2">
+        <p class="fw-bold">Contributors</p>
+      {% for c in repo_contributors %}
+        <div class="card" style="width: 200px;">
+          <img src="{{c['avatar_url']}}" alt="" style="width: 200px;">
+          <div class="card-body">
+            <p class="fw-bold m-0">@{{c['login']}}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+      <div class="d-flex flex-column gap-2">
+        <p class="fw-bold">Stargazers</p>
+      {% for c in repo_stargazers %}
+        <div class="card" style="width: 200px;">
+          <img src="{{c['avatar_url']}}" alt="" style="width: 200px;">
+          <div class="card-body">
+            <p class="fw-bold m-0">@{{c['login']}}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="d-flex flex-column gap-2">
+      <p class="fw-bold">
+        Comments
+      </p>
+      {% for comment in repo_comments %}
+      <div class="card" style="width: 400px;">
+        <div class="card-body">
+          <div class="d-flex gap-2 align-items-center">
+        <img src="{{comment['user']['avatar_url']}}" alt="" style="width: 35px; border-radius: 50%;">
+        <span class="fw-bold">@{{comment['user']['login']}}</span>
+      </div>
+      
+      
+      
+      <hr class="w-80">
+      <p>
+        {{comment['body']}}
+      </p>
+      <div style="font-size: 12px;">
+        <p class="m-0">commented at {{comment['created_at']}}</p>
+      <a href="{{comment['html_url']}}"><p class="m-0">check comment ↗</p></a>
+      </div>
+        </div>
+      </div>
+      
+      {% endfor %}
+    </div>
+
+    <div class="d-flex flex-column gap-2">
+      <p class="fw-bold">
+        Commits
+      </p>
+      {% for commit in repo_commits %}
+        <div class="card" style="width: 400px;">
+          <div class="card-body">
+            
+              <div class="d-flex gap-2 align-items-center">
+                <img src="{{commit['committer']['avatar_url']}}" alt="" style="width: 35px; border-radius: 50%;">
+                <span class="fw-bold">@{{commit['committer']['login']}}</span>
+              </div>
+              
+            
+           
+            <hr class="w-80">
+            
+            
+            <p class="">{{commit['commit']['message']}}</p>
+            <!-- <hr class="w-80"> -->
+            <div>
+              <a href="{{commit['parents'][0]['html_url']}}"><p class="text-muted m-0" style="font-size: 12px;">{{commit['sha']}}</p></a>
+              <p class="m-0" style="font-size: 12px;">at <span class="fw-bold">{{commit['commit']['committer']['date']}}</span></p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    </div>
+    
+  
   </body>
 </html>
