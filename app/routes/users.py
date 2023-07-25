@@ -23,7 +23,18 @@ async def get_user_info(request, username:str):
         CachedRequest.fetch_user_followers(username)
     )
     
-    return await render('user.html', context={'user_info':user_info, 'user_repos':user_repos, 'user_events':user_events, 'user_followers':user_followers})
+    # print(type(user_info)) # User model!
+    # print(type(user_repos[0])) # UserRepo model!
+    
+    context={
+        'user_info':user_info, 
+        'user_repos':user_repos, 
+        'user_events':user_events, 
+        'user_followers':user_followers
+    }
+    
+    # print(context['user_info']['name']) breaks!
+    return await render('user.html', context=context)
 
 
 @users_bp.get('/compare')

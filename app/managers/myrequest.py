@@ -1,13 +1,14 @@
 import os
 from pprint import pprint
+from typing import List
 
 import aiohttp
-import asyncio
 from aiohttp_client_cache import CachedSession, SQLiteBackend, RedisBackend
 
 from sanic.exceptions import NotFound, BadRequest
 from sanic.log import logger
 
+from app.models.users import User, UserRepo, Follower, Event
 from app.mylogging import logger
 
 class Request():
@@ -32,24 +33,40 @@ class Request():
                 return result
 
     @classmethod
-    async def fetch_user(cls, username:str):
+    async def fetch_user(cls, username:str) -> User:
+        """Fetch github user info
+
+        Args:
+            username (str): github user's username
+
+        Returns:
+            User: Pydantics User Model
+        """
         url = f'https://api.github.com/users/{username}'
-        return await cls._fetch(url)
+        result = await cls._fetch(url)
+        user = User(**result)
+        return user
         
     @classmethod
-    async def fetch_user_repos(cls, username:str):
+    async def fetch_user_repos(cls, username:str) -> List[UserRepo]:
         url = f'https://api.github.com/users/{username}/repos'
-        return await cls._fetch(url)
+        result = await cls._fetch(url)
+        user_repos = [UserRepo(**repo) for repo in result]
+        return user_repos
     
     @classmethod
-    async def fetch_user_events(cls, username:str):
+    async def fetch_user_events(cls, username:str) -> List[Event]:
         url = f'https://api.github.com/users/{username}/events'
-        return await cls._fetch(url)
+        result = await cls._fetch(url)
+        events = [Event(**event) for event in result]
+        return events
     
     @classmethod
-    async def fetch_user_followers(cls, username:str):
+    async def fetch_user_followers(cls, username:str) -> List[Follower]:
         url = f'https://api.github.com/users/{username}/followers?per_page=50'
-        return await cls._fetch(url)
+        result = await cls._fetch(url)
+        followers = [Follower(**follower) for follower in result]
+        return followers
 
     @classmethod
     async def fetch_repo(cls, ownername:str, reponame:str):
@@ -74,16 +91,6 @@ class Request():
     @classmethod
     async def fetch_repo_commits(cls, ownername:str, reponame:str):
         url = f'https://api.github.com/repos/{ownername}/{reponame}/commits'
-        return await cls._fetch(url)
-    
-    @classmethod
-    async def fetch_org(cls, orgname:str):
-        url = f'https://api.github.com/orgs/{orgname}'
-        return await cls._fetch(url)
-    
-    @classmethod
-    async def fetch_org_repos(cls, orgname:str):
-        url = f'https://api.github.com/orgs/{orgname}/repos'
         return await cls._fetch(url)
 
 class CachedRequest(Request):
