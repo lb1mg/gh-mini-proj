@@ -9,8 +9,8 @@ from sanic.exceptions import NotFound, BadRequest
 from sanic_ext import render
 
 # Blueprints
-from routes.users import users_bp
-from routes.repos import repos_bp
+from app.routes.users import users_bp
+from app.routes.repos import repos_bp
 
 app = Sanic(__name__)
 
@@ -30,5 +30,5 @@ async def get_help(request):
     return await render('help.html')
     
 if __name__ == '__main__':
-    app.run(port=8000, dev=True)
+    app.run(port=8001, dev=True)
     # app.run()

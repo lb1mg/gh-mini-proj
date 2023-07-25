@@ -6,7 +6,7 @@ from sanic import response
 from sanic.exceptions import NotFound, BadRequest
 from sanic_ext import render
 
-from managers.myrequest import Request, CachedRequest
+from app.managers.myrequest import Request, CachedRequest
 
 repos_bp = Blueprint('repos_bp', url_prefix='/repo')
 

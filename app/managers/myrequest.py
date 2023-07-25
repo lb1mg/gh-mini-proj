@@ -6,16 +6,11 @@ import asyncio
 from aiohttp_client_cache import CachedSession, SQLiteBackend, RedisBackend
 
 from sanic.exceptions import NotFound, BadRequest
+from sanic.log import logger
 
-import logging
+from app.mylogging import logger
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler('cache.log')
-fh.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-logger.addHandler(fh)
+# from app.routes.users import get_user_info
 
 class Request():
     """ Base class for making async requests """
@@ -123,7 +118,7 @@ if __name__ == '__main__':
     # result = asyncio.run(Request.fetch_org('google'))
     # result = asyncio.run(fetch_org_repos('google'))
     # result = asyncio.run(Request.fetch_user('llllllllllllllll'))
-    # result = asyncio.run(CachedRequest.fetch_org('facebookresearch'))
+    result = asyncio.run(CachedRequest.fetch_org('facebookresearch'))
     # asyncio.run(CachedRequest._get_cached_urls())
     # print(type(result))
     # pprint(result)
