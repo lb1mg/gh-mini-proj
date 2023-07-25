@@ -23,11 +23,13 @@
           <div class="card">
             <div class="card-body">
               <div class="d-flex gap-4">
-                <div class="card">
-                  <img src="{{user_info['avatar_url']}}" alt="" style="width: 300px;"/>
+                <div class="card" style="width: 300px;">
+                  <img src="{{user_info['avatar_url']}}" alt="" class="card-img-top"/>
                   <div class="card-body">
                     <p class="display-6 fw-bold">{{user_info['name']}}</p>
-                  <p>{{user_info['bio']}}</p>
+                    {% if user_info['bio'] %}
+                    <p class="m-0">{{user_info['bio']}}</p>
+                    {% endif %}
                   </div>
                   
                 </div>
@@ -85,7 +87,7 @@
         <p class="fw-bold" >Followers</p>
         {% for follower in user_followers %}
         <div class="card" style="width:200px">
-          <img src="{{follower['avatar_url']}}" alt="" style="width: 198px" />
+          <img src="{{follower['avatar_url']}}" alt="" class="card-img-top" />
           <div class="card-body">
             <p class="fw-bold m-0">@{{follower['login']}}</p>
           </div>
@@ -97,7 +99,7 @@
         <p class="fw-bold" >Repos</p>
         {% for user_repo in user_repos %}
         <div class="card" style="width: 350px">
-          <img  src="https://octodex.github.com/images/spidertocat.png" alt="">
+          <img  src="https://octodex.github.com/images/spidertocat.png" alt="" class="card-img-top">
           <div class="card-body" style="font-size: 14px;">
             <a class="link-secondary" href="{{user_repo['html_url']}}"><p class="fw-bold ">{{user_repo['full_name']}} ↗</p></a>
             

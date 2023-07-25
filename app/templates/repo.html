@@ -54,7 +54,7 @@
 
           <div style="width: 300px;">
             <ul class="list-group">
-              <li class="list-group-item text-bg-light fw-bold">Watchers</li>
+              <li class="list-group-item text-bg-light fw-bold">Stars</li>
               <li class="list-group-item">{{repo_info['watchers']}}</li>
               <li class="list-group-item text-bg-light fw-bold">Subscribers</li>
               <li class="list-group-item">{{repo_info['subscribers_count']}}</li>
@@ -86,6 +86,8 @@
           <img src="{{c['avatar_url']}}" alt="" style="width: 200px;">
           <div class="card-body">
             <p class="fw-bold m-0">@{{c['login']}}</p>
+            <p class="m-0 text-muted" style="font-size: 12px;">Contributions</p>
+            <p class="m-0" style="font-size: 12px;">{{c['contributions']}}</p>
           </div>
         </div>
       {% endfor %}

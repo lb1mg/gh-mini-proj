@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-# print(f"testing dotenv: {os.getenv('GITHUB_PAT')}")
+# print(f"testing dotenv: {os.getenv('GITHUB_PAT')}") 
 
 from sanic import Sanic
 from sanic.response import text, json, redirect
@@ -11,7 +11,6 @@ from sanic_ext import render
 # Blueprints
 from routes.users import users_bp
 from routes.repos import repos_bp
-
 
 app = Sanic(__name__)
 
