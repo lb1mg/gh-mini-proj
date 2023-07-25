@@ -1,11 +1,12 @@
 from pprint import pprint
 import asyncio
 
+import time
+
 from sanic import Blueprint
 from sanic import response
 from sanic.exceptions import NotFound, BadRequest
 from sanic_ext import render
-
 
 from managers.myrequest import Request, CachedRequest
 
@@ -20,13 +21,14 @@ async def get_user_info(request, username:str):
     # user_events = await CachedRequest.fetch_user_events(username)
     # user_followers = await CachedRequest.fetch_user_followers(username)
     
+    s = time.perf_counter()
     user_info, user_repos, user_events, user_followers = await asyncio.gather(
         CachedRequest.fetch_user(username),
         CachedRequest.fetch_user_repos(username),
         CachedRequest.fetch_user_events(username),
         CachedRequest.fetch_user_followers(username)
     )
-    
+    print(f'Elapsed Time {time.perf_counter()-s}s')
     # print(user_info)
     # print(user_repos)
     return await render('user.html', context={'user_info':user_info, 'user_repos':user_repos, 'user_events':user_events, 'user_followers':user_followers})
