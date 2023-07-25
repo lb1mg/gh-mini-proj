@@ -10,7 +10,6 @@ from sanic_ext import render
 
 # Blueprints
 from routes.users import users_bp
-from routes.orgs import orgs_bp
 from routes.repos import repos_bp
 
 
@@ -21,7 +20,6 @@ app.extend(config={"oas_ui_default": "swagger"})
 
 # Registering Blueprints
 app.blueprint(users_bp)
-app.blueprint(orgs_bp)
 app.blueprint(repos_bp)
 
 @app.get('/')
@@ -34,3 +32,4 @@ async def get_help(request):
     
 if __name__ == '__main__':
     app.run(port=8000, dev=True)
+    # app.run()
