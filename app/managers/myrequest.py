@@ -10,10 +10,10 @@ from sanic.log import logger
 
 from app.mylogging import logger
 
-# from app.routes.users import get_user_info
-
 class Request():
-    """ Base class for making async requests """
+    """
+    Base class for making async requests 
+    """
     
     GITHUB_API_TOKEN = os.getenv('GITHUB_PAT')
     headers = {
@@ -29,8 +29,6 @@ class Request():
                 elif res.status==404:
                     raise NotFound()
                 result = await res.json()
-                # logger.info(f'Cached:{False} Response:{result}')
-                # print(result)
                 return result
 
     @classmethod
@@ -89,7 +87,9 @@ class Request():
         return await cls._fetch(url)
 
 class CachedRequest(Request):
-    """ Extends base Request class to cache api responses """
+    """ 
+    Extends base Request class to cache api responses 
+    """
     
     cache = RedisBackend(
         expire_after=60*60 # 3600 seconds
@@ -107,19 +107,3 @@ class CachedRequest(Request):
                 result = await res.json()
                 logger.info(f'URL:{url} - Cached:{res.from_cache} - Created at:{res.created_at} - Expires in:{res.expires} - Is expired:{res.is_expired}')
                 return result
-
-if __name__ == '__main__':
-    # result = asyncio.run(CachedRequest.fetch_user('miguelgrinberg'))
-    # result = asyncio.run(fetch_user_repos('miguelgrinberg'))
-    # result = asyncio.run(fetch_repo('miguelgrinberg', 'microblog'))
-    # result = asyncio.run(fetch_repo('google', 'leveldb'))
-    # result = asyncio.run(CachedRequest.fetch_org('bloomberg'))
-    # result = asyncio.run(CachedRequest.fetch_user('livewire'))
-    # result = asyncio.run(Request.fetch_org('google'))
-    # result = asyncio.run(fetch_org_repos('google'))
-    # result = asyncio.run(Request.fetch_user('llllllllllllllll'))
-    result = asyncio.run(CachedRequest.fetch_org('facebookresearch'))
-    # asyncio.run(CachedRequest._get_cached_urls())
-    # print(type(result))
-    # pprint(result)
-    pass
