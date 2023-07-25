@@ -16,6 +16,9 @@ from routes.repos import repos_bp
 
 app = Sanic(__name__)
 
+# Sanic Extention Config
+app.extend(config={"oas_ui_default": "swagger"})
+
 # Registering Blueprints
 app.blueprint(users_bp)
 app.blueprint(orgs_bp)
