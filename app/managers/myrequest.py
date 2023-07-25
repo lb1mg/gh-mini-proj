@@ -40,12 +40,47 @@ class Request():
     async def fetch_user_repos(cls, username:str):
         url = f'https://api.github.com/users/{username}/repos'
         return await cls._fetch(url)
+    
+    @classmethod
+    async def fetch_user_events(cls, username:str):
+        url = f'https://api.github.com/users/{username}/events'
+        return await cls._fetch(url)
+    
+    @classmethod
+    async def fetch_user_followers(cls, username:str):
+        url = f'https://api.github.com/users/{username}/followers'
+        return await cls._fetch(url)
 
     @classmethod
     async def fetch_repo(cls, ownername:str, reponame:str):
         url = f'https://api.github.com/repos/{ownername}/{reponame}'
         return await cls._fetch(url)
+   
+    @classmethod
+    async def fetch_repo_contributors(cls, ownername:str, reponame:str):
+        url = f'https://api.github.com/repos/{ownername}/{reponame}/contributors'
+        return await cls._fetch(url)
+     
+    @classmethod
+    async def fetch_repo_stargazers(cls, ownername:str, reponame:str):
+        url = f'https://api.github.com/repos/{ownername}/{reponame}/stargazers'
+        return await cls._fetch(url)
+    
+    @classmethod
+    async def fetch_repo_comments(cls, ownername:str, reponame:str):
+        url = f'https://api.github.com/repos/{ownername}/{reponame}/comments'
+        return await cls._fetch(url)
+    
+    
+    @classmethod
+    async def fetch_repo_commits(cls, ownername:str, reponame:str):
+        url = f'https://api.github.com/repos/{ownername}/{reponame}/commits'
+        return await cls._fetch(url)
+    
+    
 
+
+    
     @classmethod
     async def fetch_org(cls, orgname:str):
         url = f'https://api.github.com/orgs/{orgname}'
