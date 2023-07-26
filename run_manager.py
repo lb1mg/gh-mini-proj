@@ -4,7 +4,7 @@ import time
 from pprint import pprint
 import asyncio
 
-from app.managers.myrequest import Request, CachedRequest
+from app.managers.github_manager import GithubManager, CachedGithubManager
 from app.models.users import User, UserRepo
 
 if __name__ == '__main__':
@@ -12,9 +12,19 @@ if __name__ == '__main__':
     # user = User(**result)
     # print(user['name'])
     
-    result = asyncio.run(CachedRequest.fetch_user_repos('miguelgrinberg'))
-    user_repos = [UserRepo(**repo) for repo in result]
-    pprint(user_repos)
+    result = asyncio.run(CachedGithubManager.fetch_user_repos('miguelgrinberg'))
+    # user_repos = [UserRepo(**repo) for repo in result]
+    user_repos = result
+    # pprint(user_repos)
+    for repo in user_repos:
+        print(repo.forks_count, end=', ')
+    print()    
+    
+    
+    user_repos.sort(key=lambda x:x.forks_count, reverse=True)
+    
+    for repo in user_repos:
+        print(repo.forks_count, end=', ')
     # result = asyncio.run(fetch_repo('miguelgrinberg', 'microblog'))
     # result = asyncio.run(fetch_repo('google', 'leveldb'))
     # result = asyncio.run(CachedRequest.fetch_org('bloomberg'))
