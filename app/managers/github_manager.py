@@ -21,7 +21,14 @@ class GithubManager:
     headers = {"Authorization": f"Bearer {GITHUB_API_TOKEN}"}
 
     @classmethod
-    async def _fetch(cls, url: str):
+    async def _fetch(cls, url: str) -> dict:
+        """Makes a GET request & fetches data
+
+        Args:
+            url (str): url to send request  
+        Returns:
+            dict: response dictionary
+        """
         async with aiohttp.ClientSession(headers=cls.headers) as session:
             async with session.get(url) as res:
                 if res.status == 400:
