@@ -94,37 +94,56 @@
         </div>
         {% endfor %}
       </div>
-
-      <div class="d-flex flex-column gap-2" style="width: 350px">
-        <p class="fw-bold" >Repos</p>
-        {% for user_repo in user_repos %}
-        <div class="card" style="width: 350px">
-          <img  src="https://octodex.github.com/images/spidertocat.png" alt="" class="card-img-top">
-          <div class="card-body" style="font-size: 14px;">
-            <a class="link-secondary" href="{{user_repo['html_url']}}"><p class="fw-bold ">{{user_repo['full_name']}} ↗</p></a>
-            
-            <p class="mb-0 text-muted" style="font-size: 12px;">Description</p>
-            <p>{{user_repo['description']}}</p>
-            <hr class="w-80" />
-            <ul class="list-group">
-              <li class="list-group-item text-bg-light fw-bold">Forks</li>
-              <li class="list-group-item">{{user_repo['forks_count']}}</li>
-              <li class="list-group-item text-bg-light fw-bold">Open Issues</li>
-              <li class="list-group-item">
-                {{user_repo['open_issues_count']}}
-              </li>
-              <li class="list-group-item text-bg-light fw-bold">Watchers</li>
-              <li class="list-group-item">{{user_repo['watchers_count']}}</li>
-            </ul>
-            {% if user_repo['license'] %}
-            <ul class="list-group mt-2">
+      <div class="d-flex flex-column gap-4">
+        <div class="d-flex flex-column gap-2" >
+          <p class="fw-bold" >Repos</p>
+          {% if sort_msg %}
+          <ul class="list-group">
+            <li class="list-group-item text-success text-center">
+              {{sort_msg}}
+            </li>
+          </ul>
+          {% endif %}
+          {% for user_repo in user_repos %}
+          <div class="d-flex gap-2">
+            <div class="card" style="width: 600px">
               
-              <li class="list-group-item">{{user_repo['license']['name']}}</li>
-            </ul>
-            {% endif %}
+              <div class="card-body" style="font-size: 14px;">
+                <div class="d-flex gap-2">
+                  <div class="card" style="width: 50%;">
+                    <img  src="https://octodex.github.com/images/spidertocat.png" alt="" class="card-img-top">
+                    <div class="card-body">
+                      <a class="link-secondary" href="{{user_repo['html_url']}}"><p class="fw-bold ">{{user_repo['full_name']}} ↗</p></a>  
+                    <p class="mb-0 text-muted" style="font-size: 12px;">Description</p>
+                    <p>{{user_repo['description']}}</p>
+                    </div>
+                  </div>
+                
+                  <div class="d-flex flex-column" style="width: 300px;">
+                    <ul class="list-group">
+                      <li class="list-group-item text-bg-light fw-bold">Forks</li>
+                      <li class="list-group-item">{{user_repo['forks_count']}}</li>
+                      <li class="list-group-item text-bg-light fw-bold">Open Issues</li>
+                      <li class="list-group-item">
+                        {{user_repo['open_issues_count']}}
+                      </li>
+                      <li class="list-group-item text-bg-light fw-bold">Stars</li>
+                      <li class="list-group-item">{{user_repo['watchers_count']}}</li>
+                    </ul>
+                    {% if user_repo['license'] %}
+                    <ul class="list-group mt-2">
+                      <li class="list-group-item">{{user_repo['license']['name']}}</li>
+                    </ul>
+                    {% endif %}
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
           </div>
-        </div>
-        {% endfor %}
+          {% endfor %}
+        </div>  
       </div>
 
       <div class="d-flex flex-column gap-2">
@@ -139,6 +158,7 @@
               <a href="{{event['repo']['url']}}"
                 ><li class="list-group-item">{{event['repo']['name']}} ↗</li></a
               >
+            
               <li class="list-group-item text-bg-light fw-bold">At</li>
               <li class="list-group-item">{{event['created_at']}}</li>
             </ul>
@@ -146,6 +166,8 @@
         </div>
         {% endfor %}
       </div>
+
+      
     </div>
   </body>
 </html>
