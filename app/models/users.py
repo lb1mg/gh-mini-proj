@@ -39,4 +39,3 @@ class Event(BaseModel):
     type:str
     repo:dict
     created_at:str
-    
