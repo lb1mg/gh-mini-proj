@@ -63,7 +63,7 @@ async def compare(request):
     user1 = args.get('user1')
     user2 = args.get('user2')
     if not user1 or not user2:
-        raise BadRequest()
+        raise BadRequest('Missing arguements')
     
     user1_info, user2_info = await asyncio.gather(
         CachedGithubManager.fetch_user(user1),
