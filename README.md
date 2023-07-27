@@ -9,6 +9,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+<details>
+<summary>Redis Installation</summary>
+GOSH! You seriously opened it 
+</details>
+
+Run
 ```sh
 # start redis server
 $ redis-server
@@ -25,8 +31,9 @@ sanic app.server --dev
 Now go to,
 localhost:8000/docs to get info on various available routes
 
-## Demo
 
+<details>
+<summary>Local Demos</summary>
 OpenAPI Swagger
 http://127.0.0.1:8000/docs/
 
@@ -74,6 +81,10 @@ http://localhost:8000/repo/compare?user1=google&repo1=leveldb&user2=facebook&rep
 
 sanic-org/sanic vs pallets/flask
 http://localhost:8000/repo/compare?user1=sanic-org&repo1=sanic&user2=pallets&repo2=flask
+
+
+</details>
+
 
 
 ## Links 
