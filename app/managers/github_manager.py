@@ -9,7 +9,9 @@ from aiohttp_client_cache import CachedSession, SQLiteBackend, RedisBackend
 from sanic.exceptions import NotFound, BadRequest
 
 from app.models.users import User, UserRepo, Follower, Event
-from app.mylogging import logger
+from app.models.repos import Repo, Contributors, Stargazers, Comments, Commits
+
+from app.logger import logger
 
 
 class GithubManager:
@@ -100,13 +102,18 @@ class GithubManager:
 
     @classmethod
     async def fetch_repo(cls, ownername: str, reponame: str):
+        
         url = f"https://api.github.com/repos/{ownername}/{reponame}"
-        return await cls._fetch(url)
+        result =  await cls._fetch(url)
+        repo = Repo(**result)
+        return repo
 
     @classmethod
     async def fetch_repo_contributors(cls, ownername: str, reponame: str):
         url = f"https://api.github.com/repos/{ownername}/{reponame}/contributors"
-        return await cls._fetch(url)
+        result =  await cls._fetch(url)
+        contributors = [Contributors(**contributor) for contributor in result]
+        return contributors
 
     @classmethod
     async def fetch_repo_stargazers(cls, ownername: str, reponame: str):
@@ -135,6 +142,7 @@ class CachedGithubManager(GithubManager):
     async def _fetch(cls, url: str):
         async with CachedSession(cache=cls.cache, headers=cls.headers) as session:
             async with session.get(url) as res:
+                
                 if res.status == 400:
                     raise BadRequest()
                 elif res.status == 404:
@@ -145,3 +153,4 @@ class CachedGithubManager(GithubManager):
                     f"URL:{url} - Cached:{res.from_cache} - Created at:{res.created_at} - Expires in:{res.expires} - Is expired:{res.is_expired}"
                 )
                 return result
+
