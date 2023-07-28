@@ -8,6 +8,7 @@ from sanic.exceptions import NotFound, BadRequest
 from sanic_ext import render
 
 # Blueprints
+from app.routes.main import main_bp
 from app.routes.users import users_bp
 from app.routes.repos import repos_bp
 
@@ -18,19 +19,14 @@ def create_app():
     app.extend(config={"oas_ui_default": "swagger"})
 
     # Registering Blueprints
+    app.blueprint(main_bp)
     app.blueprint(users_bp)
     app.blueprint(repos_bp)
     
     return app
 
 
-# @app.get('/')
-# async def get_index(request):
-#     return redirect('/help')
 
-# @app.get('/help')
-# async def get_help(request):
-#     return await render('help.html')
     
 # if __name__ == '__main__':
 #     app.run(port=8000, dev=True)
