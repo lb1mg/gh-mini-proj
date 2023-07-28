@@ -25,7 +25,7 @@ host:port> ping
 PONG
 
 # start sanic server
-sanic app.server --dev
+sanic app.server:create_app --dev
 ```
 
 Now go to,
