@@ -1,6 +1,7 @@
 # Custom rules
 dev/
 dump.rdb
+LINKS.md
 
 # editor files
 .idea
