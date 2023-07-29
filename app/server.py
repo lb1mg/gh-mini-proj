@@ -3,15 +3,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from sanic import Sanic
-from sanic.response import text, json, redirect
-from sanic.exceptions import NotFound, BadRequest
-from sanic_ext import render
+from sanic import Request
 
 # Blueprints
 from app.routes.main import main_bp
 from app.routes.users import users_bp
 from app.routes.repos import repos_bp
 
+# App factory
 def create_app():
     app = Sanic('mini-gh-analytics')
 
@@ -24,10 +23,3 @@ def create_app():
     app.blueprint(repos_bp)
     
     return app
-
-
-
-    
-# if __name__ == '__main__':
-#     app.run(port=8000, dev=True)
-    # app.run()
