@@ -34,6 +34,9 @@ localhost:8000/docs to get info on various available routes
 
 <details>
 <summary>Local Demos</summary>
+
+### Docs
+
 OpenAPI Swagger
 http://127.0.0.1:8000/docs/
 
@@ -85,12 +88,6 @@ http://localhost:8000/repo/compare?user1=sanic-org&repo1=sanic&user2=pallets&rep
 
 </details>
 
-
-
-## Links 
-
-How to retrieve contribution graph data from the GitHub API | by Yuichi Yogo | Medium
-https://medium.com/@yuichkun/how-to-retrieve-contribution-graph-data-from-the-github-api-dc3a151b4af
 
 ## TODO 
 - [x] Logging
