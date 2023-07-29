@@ -1,0 +1,1 @@
+sanic app.server:create_app --dev 
