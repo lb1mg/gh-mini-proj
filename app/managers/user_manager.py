@@ -18,8 +18,8 @@ from app.managers.github_manager import GithubManager
 
 class UserManager(GithubManager):
     
-    def __init__(self, token: str = None) -> None:
-        super().__init__(token)
+    def __init__(self, cache: bool = True, timeout_total: int = 180) -> None:
+        super().__init__(cache, timeout_total)
     
     async def fetch_user(self, username:str):
         user_bio, user_repos, user_events, user_followers = await asyncio.gather(
@@ -39,24 +39,24 @@ class UserManager(GithubManager):
         
     async def fetch_user_info(self, username: str) -> User:
         url = f"https://api.github.com/users/{username}"
-        result = await self._fetch(url)
+        result = await self.req_manager._fetch(url)
         user = User(**result)
         return user
 
     async def fetch_user_repos(self, username: str) -> List[UserRepo]:
         url = f"https://api.github.com/users/{username}/repos"
-        result = await self._fetch(url)
+        result = await self.req_manager._fetch(url)
         user_repos = [UserRepo(**repo) for repo in result]
         return user_repos
 
     async def fetch_user_events(self, username: str) -> List[Event]:
         url = f"https://api.github.com/users/{username}/events"
-        result = await self._fetch(url)
+        result = await self.req_manager._fetch(url)
         events = [Event(**event) for event in result]
         return events
 
     async def fetch_user_followers(self, username: str) -> List[Follower]:
         url = f"https://api.github.com/users/{username}/followers"
-        result = await self._fetch(url)
+        result = await self.req_manager._fetch(url)
         followers = [Follower(**follower) for follower in result]
         return followers

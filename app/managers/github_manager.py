@@ -18,28 +18,9 @@ from app.models.repos import Repo, Contributors, Stargazers, Comments, Commits
 from app.managers.request_manager import RequestManager
 
         
-class GithubManager(RequestManager):
+class GithubManager:
 
-    def __init__(self, timeout_total: int = None) -> None:
-        # get persistent cached session
-        self._app = Sanic.get_app()
-        _session = self._app.ctx.cached_session
-        # github creds
-        _token = os.getenv("GITHUB_PAT")
-        # set headers
-        _headers = {
-            "Accept":  "application/vnd.github+json",
-            "Authorization": f"Bearer {_token}",
-            "X-GitHub-Api-Version": "2022-11-28"
-        }
-        super().__init__(session=_session, headers=_headers, timeout_total=timeout_total)
-
-class AuthenticatedGithubManager(RequestManager):
-    
-    def __init__(self, timeout_total: int = None) -> None:
-        # get persistent cached session
-        self._app = Sanic.get_app()
-        _session = self._app.ctx.client_session
+    def __init__(self, cache:bool=True, timeout_total:int=180) -> None:
         # github creds
         _token = os.getenv("GITHUB_PAT_2")
         # set headers
@@ -48,4 +29,5 @@ class AuthenticatedGithubManager(RequestManager):
             "Authorization": f"Bearer {_token}",
             "X-GitHub-Api-Version": "2022-11-28"
         }
-        super().__init__(session=_session, headers=_headers, timeout_total=timeout_total)
+        self.req_manager = RequestManager(cache=cache, headers=_headers, timeout_total=timeout_total)
+        

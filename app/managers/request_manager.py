@@ -10,13 +10,20 @@ from app.cache import EfficientRedisBackend
 
 class RequestManager:
     
-    def __init__(self, session, headers:dict=None, timeout_total:int=None) -> None:
-        self._session = session
+    def __init__(self, cache:bool=True, headers:dict=None, timeout_total:int=180) -> None:
+        # get current running sanic instance
+        self._app = Sanic.get_app()
+        # set session acc to cache param
+        self._session = None
+        self._to_cache = cache
+        if cache:
+            self._session = self._app.ctx.cached_session
+        else:
+            self._session = self._app.ctx.client_session
+        # set headers
         self._headers = headers
         # Request Config
         self._timeout_total = timeout_total
-        if not self._timeout_total:
-            self._timeout_total = 60*3 # 60*3=180sec
         self.timeout = aiohttp.ClientTimeout(total=self._timeout_total) 
     
     async def _fetch(self, url:str):
@@ -32,7 +39,8 @@ class RequestManager:
             headers=self._headers,
             timeout=self.timeout
         ) as res:
-            # logger.info(f"URL:{url} - Cached:{res.from_cache} - Created:{res.created_at} - Expires:{res.expires}")
+            if self._to_cache:
+                logger.info(f"URL:{url} - Cached:{res.from_cache} - Created:{res.created_at} - Expires:{res.expires}")
             self._raise_for_status(res.status)
             result = await res.json()
             return result

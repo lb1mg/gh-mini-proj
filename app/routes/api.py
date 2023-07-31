@@ -5,7 +5,7 @@ from sanic.log import logger
 from sanic import Blueprint, Request
 from sanic.response import redirect, text, json
 from sanic_ext import render
-from app.managers.repo_manager import AuthenticatedRepoManager
+from app.managers.repo_manager import PrivateRepoManager
 
 api_bp = Blueprint('apibp', url_prefix='/api')
 
@@ -22,7 +22,7 @@ async def create_repo(request):
     description = body.get('description')
     private = body.get('private')
     is_template = body.get('is_template')
-    res = await AuthenticatedRepoManager().create_repo(
+    res = await PrivateRepoManager().create_repo(
         repo_name=repo_name,
         description=description,
         private=private,
@@ -45,7 +45,7 @@ async def delete_repo(request):
     pprint(body)
     owner_name = body.get('owner_name')
     repo_name = body.get('repo_name')
-    res = await AuthenticatedRepoManager().delete_repo(
+    res = await PrivateRepoManager().delete_repo(
         owner_name=owner_name,
         repo_name=repo_name
     )
