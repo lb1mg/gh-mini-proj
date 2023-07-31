@@ -6,7 +6,7 @@ from sanic import response
 from sanic.exceptions import NotFound, BadRequest
 from sanic_ext import render
 
-from app.managers.github_manager import GithubManager, RepoManager
+from app.managers.repo_manager import RepoManager
 
 repos_bp = Blueprint('repos_bp', url_prefix='/repo')
 

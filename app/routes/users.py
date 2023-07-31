@@ -8,7 +8,7 @@ from sanic import response
 from sanic.exceptions import NotFound, BadRequest
 from sanic_ext import render
 
-from app.managers.github_manager import GithubManager, UserManager
+from app.managers.user_manager import UserManager
 
 users_bp = Blueprint('users_bp', url_prefix='/user')
 
