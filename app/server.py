@@ -15,7 +15,8 @@ from app.routes.repos import repos_bp
 # Listeners
 from app.listeners import (
     connect_redis, disconnect_redis,
-    create_cached_session, close_cached_session
+    create_cached_session, close_cached_session,
+    create_client_session, close_client_session
 )
 
 # Middlewares
@@ -44,9 +45,11 @@ def create_app():
     # Registering Listeners
     app.register_listener(connect_redis, 'before_server_start')
     app.register_listener(create_cached_session, 'before_server_start')
+    app.register_listener(create_client_session, 'before_server_start')
     
     app.register_listener(disconnect_redis, 'before_server_stop')
     app.register_listener(close_cached_session, 'before_server_stop')
+    app.register_listener(close_client_session, 'before_server_stop')
     
     # Registering Middlewares
     app.register_middleware(add_request_id_header, "response")

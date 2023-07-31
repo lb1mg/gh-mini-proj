@@ -2,6 +2,9 @@
 LISTENERS
 """
 import redis.asyncio as redis
+
+import asyncio
+import aiohttp
 from aiohttp_client_cache import CachedSession
 
 from sanic import Sanic
@@ -31,7 +34,7 @@ async def connect_redis(app:Sanic):
         
 async def create_cached_session(app:Sanic):
     """ listener to create a persistent CachedSession """
-    app.ctx.session = None
+    app.ctx.cached_session = None
     _redis = app.ctx.redis
     _cache_backend = EfficientRedisBackend(
         connection = _redis,
@@ -42,6 +45,12 @@ async def create_cached_session(app:Sanic):
     )
     app.ctx.cached_session = _session
     logger.info('<<<<< Created Persistent Cached Session >>>>>')
+    
+async def create_client_session(app:Sanic):
+    app.ctx.client_session = None
+    _session = aiohttp.ClientSession()
+    app.ctx.client_session = _session
+    logger.info('<<<<< Created Persistent Client Session >>>>>')
 
 """
 before server stop
@@ -57,5 +66,13 @@ async def disconnect_redis(app:Sanic):
 async def close_cached_session(app:Sanic):
     _session = app.ctx.cached_session
     if _session:
+        await asyncio.sleep(0)
         await _session.close()
     logger.info('<<<<< Closed Persistent Cached Session >>>>>')
+    
+async def close_client_session(app:Sanic):
+    _session = app.ctx.client_session
+    if _session:
+        await asyncio.sleep(0)
+        await _session.close()
+    logger.info('<<<<< Closed Persistent Client Session >>>>>')
