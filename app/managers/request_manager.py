@@ -20,6 +20,13 @@ class RequestManager:
         self.timeout = aiohttp.ClientTimeout(total=self._timeout_total) 
     
     async def _fetch(self, url:str):
+        """Makes a GET request & fetches data
+
+        Args:
+            url (str): url to send request  
+        Returns:
+            dict: response dictionary
+        """
         async with self._session.get(
             url=url,
             headers=self._headers,
@@ -34,10 +41,18 @@ class RequestManager:
         async with self._session.post(
             url=url,
             data=payload,
-            headers=self.headers,
+            headers=self._headers,
             timeout=self.timeout
         ) as res:
             # log
+            self._raise_for_status(res.status)
+            result = await res.json()
+            return result
+        
+    async def _make_delete(self, url:str):
+        async with self._session.delete(
+            url=url
+        ) as res:
             self._raise_for_status(res.status)
             result = await res.json()
             return result

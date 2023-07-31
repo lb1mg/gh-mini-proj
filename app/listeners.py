@@ -17,9 +17,6 @@ before server start
 """
 async def connect_redis(app:Sanic):
     """ listener for connecting to Redis """
-    # app.ctx.redis = redis.Redis()
-    # app.ctx.redis = redis.from_url('redis://localhost')
-    # app.ctx.redis.ping()
     app.ctx.redis = None
     _redis = redis.Redis()
     try:

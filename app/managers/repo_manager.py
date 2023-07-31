@@ -1,6 +1,7 @@
 import os
 from pprint import pprint
 from typing import List, Tuple
+import json
 
 import asyncio
 import aiohttp
@@ -79,6 +80,7 @@ class AuthenticatedRepoManager(AuthenticatedGithubManager):
             'private':private,
             'is_template':is_template
         }
+        payload = json.dumps(payload)
         result = await self._make_post(
             url='https://api.github.com/user/repos',
             payload=payload
@@ -89,8 +91,12 @@ class AuthenticatedRepoManager(AuthenticatedGithubManager):
         """ gets private repo """
         pass
     
-    def delete_repo(self):
-        pass
+    async def delete_repo(self, owner_name:str, repo_name:str):
+        _url = f'  https://api.github.com/repos/{owner_name}/{repo_name}'
+        result = await self._make_delete(
+            url=_url
+        )
+        return result
     
     def update_repo(self):
         pass

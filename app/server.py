@@ -11,6 +11,7 @@ from sanic import Sanic
 from app.routes.main import main_bp
 from app.routes.users import users_bp
 from app.routes.repos import repos_bp
+from app.routes.api import api_bp
 
 # Listeners
 from app.listeners import (
@@ -41,6 +42,7 @@ def create_app():
     app.blueprint(main_bp)
     app.blueprint(users_bp)
     app.blueprint(repos_bp)
+    app.blueprint(api_bp)
     
     # Registering Listeners
     app.register_listener(connect_redis, 'before_server_start')
