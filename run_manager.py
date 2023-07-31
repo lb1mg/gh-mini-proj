@@ -4,7 +4,7 @@ import time
 from pprint import pprint
 import asyncio
 
-from app.managers.github_manager import GithubManager, CachedGithubManager
+from app.managers.github_manager import GithubManager, GithubManager
 from app.models.users import User, UserRepo
 
 if __name__ == '__main__':
@@ -12,7 +12,7 @@ if __name__ == '__main__':
     # user = User(**result)
     # print(user['name'])
     
-    result = asyncio.run(CachedGithubManager.fetch_user_repos('miguelgrinberg'))
+    result = asyncio.run(GithubManager.fetch_user_repos('miguelgrinberg'))
     # user_repos = [UserRepo(**repo) for repo in result]
     user_repos = result
     # pprint(user_repos)

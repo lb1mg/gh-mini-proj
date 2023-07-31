@@ -3,10 +3,10 @@ load_dotenv()
 import time
 import asyncio
 
-from app.managers.github_manager import CachedGithubManager
+from app.managers.github_manager import GithubManager
 
 if __name__ == '__main__':
     DEMO_USER = 'miguelgrinberg'
     s = time.perf_counter()
-    result = asyncio.run(CachedGithubManager.fetch_user(DEMO_USER))
+    result = asyncio.run(GithubManager.fetch_user(DEMO_USER))
     print(f'Time taken: {time.perf_counter()-s}')
