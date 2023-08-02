@@ -24,8 +24,8 @@ from app.listeners import (
 from app.middlewares import add_request_id_header, add_security_headers
 
 # Exceptions
-from redis import ConnectionError
-from pydantic import ValidationError
+import redis
+import pydantic
 from app.exceptions import redis_conn_err_handler, pydantic_val_err_handler
 
 # App factory
@@ -58,7 +58,8 @@ def create_app():
     app.register_middleware(add_security_headers, "response")
     
     # Registering custom Error Handlers
-    app.error_handler.add(ConnectionError, redis_conn_err_handler)
-    app.error_handler.add(ValidationError, pydantic_val_err_handler)
+    app.error_handler.add(redis.ConnectionError, redis_conn_err_handler)
+    app.error_handler.add(pydantic.ValidationError, pydantic_val_err_handler)
+    # TODO: aiohttp.ClientConnectorError
     
     return app
