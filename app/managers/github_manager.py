@@ -29,5 +29,5 @@ class GithubManager:
             "Authorization": f"Bearer {_token}",
             "X-GitHub-Api-Version": "2022-11-28"
         }
+        # req_manager to manage all http reqs
         self.req_manager = RequestManager(cache=cache, headers=_headers, timeout_total=timeout_total)
-        
