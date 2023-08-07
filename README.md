@@ -1,6 +1,54 @@
-# (MINI) Github Analytics Project
+# [Bootcamp Mini Project] Github Analytics Project
 
-Setup for local dev:
+### TODO 
+- [x] Logging
+- [x] Refactoring to OOP
+- [ ] Tests
+- [ ] Configuration
+- [ ] Docker
+- [ ] ORM/DB support
+- [ ] Manager Refactor
+
+### Directory Structure
+    .
+    ├── app
+    │   ├── listeners
+    │   │   ├── __init__.py
+    │   │   ├── base.py
+    │   │   ├── cached_session.py
+    │   │   ├── client_session.py
+    │   │   └── redis.py
+    │   ├── managers
+    │   │   ├── __init__.py
+    │   │   ├── bitbucket_manager.py
+    │   │   ├── github_manager.py
+    │   │   ├── repo_manager.py
+    │   │   ├── request_manager.py
+    │   │   └── user_manager.py
+    │   ├── models
+    │   │   ├── __init__.py
+    │   │   ├── repos.py
+    │   │   └── users.py
+    │   ├── routes
+    │   │   ├── __init__.py
+    │   │   ├── api.py
+    │   │   ├── main.py
+    │   │   ├── repos.py
+    │   │   └── users.py
+    │   ├── __init__.py
+    │   ├── cache.py
+    │   ├── config.py
+    │   ├── exceptions.py
+    │   ├── middlewares.py
+    │   └── server.py
+    ├── templates/
+    ├── README.md
+    ├── requirements.txt
+    └── start.sh
+
+### Screenshots
+<!-- TODO -->
+### Setup for local dev
 
 Build
 ```sh
@@ -9,10 +57,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-<details>
-<summary>Redis Installation</summary>
-GOSH! You seriously opened it 
-</details>
+Redis Installation
+```sh
+brew install redis
+```
+
 
 Run
 ```sh
@@ -88,8 +137,9 @@ http://localhost:8000/repo/compare?user1=sanic-org&repo1=sanic&user2=pallets&rep
 
 </details>
 
+### Misc
 
-## TODO 
-- [x] Logging
-- [x] Refactoring to OOP
-- [ ] Tests
+#### Generate Directory Tree
+```sh
+tree --gitignore -o tree --dirsfirst -n
+```
