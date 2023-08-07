@@ -13,7 +13,7 @@ api_bp = Blueprint('apibp', url_prefix='/api')
 async def get_repo(request:Request):
     raise NotImplementedError()
 
-@api_bp.route('/repo', methods=['PUT'])
+@api_bp.route('/repo', methods=['POST'])
 async def create_repo(request):
     body = request.json
     from pprint import pprint
@@ -34,7 +34,7 @@ async def create_repo(request):
         status=200
     )
 
-@api_bp.route('/repo', methods=['POST'])
+@api_bp.route('/repo', methods=['PUT'])
 async def update_repo(request):
     raise NotImplementedError()
 
