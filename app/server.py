@@ -14,11 +14,9 @@ from app.routes.repos import repos_bp
 from app.routes.api import api_bp
 
 # Listeners
-from app.listeners import (
-    connect_redis, disconnect_redis,
-    create_cached_session, close_cached_session,
-    create_client_session, close_client_session
-)
+from app.listeners.redis import connect_redis, disconnect_redis
+from app.listeners.cached_session import create_cached_session, close_cached_session
+from app.listeners.client_session import create_client_session, close_client_session
 
 # Middlewares
 from app.middlewares import add_request_id_header, add_security_headers

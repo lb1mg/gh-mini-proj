@@ -37,11 +37,12 @@ class RequestManager:
         async with self._session.get(
             url=url,
             headers=self._headers,
-            timeout=self.timeout
+            timeout=self.timeout,
+            raise_for_status=True
         ) as res:
             if self._to_cache:
                 logger.info(f"URL:{url} - Cached:{res.from_cache} - Created:{res.created_at} - Expires:{res.expires}")
-            self._raise_for_status(res.status)
+            # self._raise_for_status(res.status)
             result = await res.json()
             return result
     
