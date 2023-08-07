@@ -32,11 +32,11 @@ from sentry_sdk.integrations.sanic import SanicIntegration
 
 def setup_sentry():
     sentry_sdk.init(
-    dsn= os.getenv('SENTRY_DSN'),
-    integrations=[
-        SanicIntegration(),        
-    ],
-    traces_sample_rate=1.0,
+        dsn= os.getenv('SENTRY_DSN'),
+        integrations=[
+            SanicIntegration(),        
+        ],
+        traces_sample_rate=1.0,
     )
     
 # App factory
