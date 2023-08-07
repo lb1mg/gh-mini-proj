@@ -26,8 +26,24 @@ import redis
 import pydantic
 from app.exceptions import redis_conn_err_handler, pydantic_val_err_handler
 
+# sentry
+import sentry_sdk
+from sentry_sdk.integrations.sanic import SanicIntegration
+
+def setup_sentry():
+    sentry_sdk.init(
+    dsn= os.getenv('SENTRY_DSN'),
+    integrations=[
+        SanicIntegration(),        
+    ],
+    traces_sample_rate=1.0,
+    )
+    
 # App factory
 def create_app():
+    
+    setup_sentry()
+    
     app = Sanic('mini-gh-analytics')
 
     # TODO: Configuration
