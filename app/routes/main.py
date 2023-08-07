@@ -19,7 +19,5 @@ async def ping(request):
 @main_bp.get('/redis')
 async def ping_redis(request):
     _redis = request.app.ctx.redis
-    _pong = await _redis.ping()
-    if not _pong:
-        return json({'msg': 'not connected to redis!'})
+    await _redis.ping()
     return json({'ping':'pong'})
