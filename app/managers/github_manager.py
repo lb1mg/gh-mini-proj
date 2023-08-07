@@ -26,7 +26,7 @@ class GithubManager:
         # set headers
         _headers = {
             "Accept":  "application/vnd.github+json",
-            "Authorization": f"Bearer {_token}",
+            # "Authorization": f"Bearer {_token}",
             "X-GitHub-Api-Version": "2022-11-28"
         }
         # req_manager to manage all http reqs
