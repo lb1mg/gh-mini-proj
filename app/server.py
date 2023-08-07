@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
+from typing import List
 
 import aiohttp
 from aiohttp_client_cache import CachedSession
@@ -14,9 +15,7 @@ from app.routes.repos import repos_bp
 from app.routes.api import api_bp
 
 # Listeners
-from app.listeners.redis import connect_redis, disconnect_redis
-from app.listeners.cached_session import create_cached_session, close_cached_session
-from app.listeners.client_session import create_client_session, close_client_session
+from app.listeners import BaseListener, RedisListener, ClientSessionListener, CachedSessionListener
 
 # Middlewares
 from app.middlewares import add_request_id_header, add_security_headers
@@ -38,7 +37,15 @@ def setup_sentry():
         ],
         traces_sample_rate=1.0,
     )
-    
+
+def register_listener(app:Sanic, listener:BaseListener):
+    app.register_listener(listener.connect, 'before_server_start')
+    app.register_listener(listener.disconnect, 'before_server_stop')
+
+def register_listeners(app:Sanic, listeners:List[BaseListener]):
+    for listener in listeners:
+        register_listener(app, listener)
+
 # App factory
 def create_app():
     
@@ -59,13 +66,8 @@ def create_app():
     app.blueprint(api_bp)
     
     # Registering Listeners
-    app.register_listener(connect_redis, 'before_server_start')
-    app.register_listener(create_cached_session, 'before_server_start')
-    app.register_listener(create_client_session, 'before_server_start')
-    
-    app.register_listener(disconnect_redis, 'before_server_stop')
-    app.register_listener(close_cached_session, 'before_server_stop')
-    app.register_listener(close_client_session, 'before_server_stop')
+    listeners = [RedisListener, ClientSessionListener, CachedSessionListener]
+    register_listeners(app, listeners)
     
     # Registering Middlewares
     app.register_middleware(add_request_id_header, "response")

@@ -11,25 +11,27 @@ from sanic.log import logger
 
 from app.cache import EfficientRedisBackend
 
-async def connect_redis(app:Sanic):
-    """ listener for connecting to Redis """
-    app.ctx.redis = None
-    _redis = redis.Redis()
-    try:
-        await _redis.ping()
-    except Exception as e:
-        logger.error(e)
-        logger.error("<<<<< Could not connect to Redis! Shutting Down! >>>>>")
-        app.stop()
-    else:
-        app.ctx.redis = _redis
-        logger.info(f'<<<<< Connected to Redis >>>>>')
-        
-async def disconnect_redis(app:Sanic):
-    """ listener to close connection to Redis """
-    # await app.ctx.redis.close()
-    _redis = app.ctx.redis
-    if _redis:
-        await _redis.close()
-    logger.info(f'<<<<< Disconnected from Redis >>>>>')
+from .base import BaseListener
+
+class RedisListener(BaseListener):
     
+    @classmethod
+    async def connect(cls, app):
+        app.ctx.redis = None
+        r = redis.Redis()
+        try:
+            await r.ping()
+        except redis.ConnectionError as e:
+            logger.error(e)
+            logger.error("<<<<< Could not connect to Redis! Shutting Down! >>>>>")
+            app.stop()
+        else:
+            app.ctx.redis = r
+            logger.info(f'<<<<< Connected to Redis >>>>>')
+            
+    @classmethod
+    async def disconnect(cls, app):
+        r = app.ctx.redis
+        if r:
+            await r.close()
+            logger.info(f'<<<<< Disconnected from Redis >>>>>')

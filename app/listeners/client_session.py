@@ -12,16 +12,21 @@ from sanic.log import logger
 
 from app.cache import EfficientRedisBackend
 
-async def create_client_session(app:Sanic):
-    app.ctx.client_session = None
-    _session = aiohttp.ClientSession()
-    app.ctx.client_session = _session
-    logger.info('<<<<< Created Persistent Client Session >>>>>')
+from .base import BaseListener
+
+class ClientSessionListener(BaseListener):
     
-    
-async def close_client_session(app:Sanic):
-    _session = app.ctx.client_session
-    if _session:
-        await asyncio.sleep(0)
-        await _session.close()
-    logger.info('<<<<< Closed Persistent Client Session >>>>>')
+    @classmethod
+    async def connect(cls, app):
+        app.ctx.client_session = None
+        session = aiohttp.ClientSession()
+        app.ctx.client_session = session
+        logger.info('<<<<< Created Persistent Client Session >>>>>')
+        
+    @classmethod
+    async def disconnect(cls, app):
+        session = app.ctx.client_session
+        if session:
+            await asyncio.sleep(0)
+            await session.close()
+        logger.info('<<<<< Closed Persistent Client Session >>>>>')
