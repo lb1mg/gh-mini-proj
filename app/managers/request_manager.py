@@ -1,3 +1,4 @@
+import json
 
 import aiohttp
 from aiohttp_client_cache import CachedSession, SQLiteBackend, RedisBackend
@@ -7,6 +8,78 @@ from sanic.log import logger
 from sanic.exceptions import NotFound, BadRequest
 
 from app.cache import EfficientRedisBackend
+
+class RequestManagerV2:
+    
+    @classmethod
+    async def _get_session(cls, cache:bool = False):
+        app = Sanic.get_app()
+        if cache:
+            return app.ctx.cached_session
+        return app.ctx.client_session
+    
+    @classmethod
+    async def _request(
+        cls,
+        method:str, 
+        url:str,
+        headers:dict = None,
+        params:dict = None,
+        data:dict = None,
+        cache:bool = False, 
+        raise_for_status:bool = True
+    ):
+        if not headers:
+            # TODO: pick from config
+            pass
+        
+        timeout_total = 120 # TODO:pick from config
+        timeout = aiohttp.ClientTimeout(total=timeout_total) 
+        
+        data = json.dumps(data)
+        
+        session = cls._get_session(cache=cache)
+        
+        async with session.request(
+            method = method,
+            url = url,
+            headers = headers,
+            params = params,
+            data = data,
+            timeout=timeout,
+            raise_for_status=raise_for_status
+        ) as resp:
+            if cache:
+                logger.info(f"URL:{url} - Cached:{resp.from_cache} - Created:{resp.created_at} - Expires:{resp.expires}")
+            result = await resp.json()
+            return result
+                
+    @classmethod
+    async def _fetch(
+        cls,
+        method:str, 
+        url:str,
+        headers:dict = None,
+        params:dict = None,
+        data:dict = None,
+        cache:bool = False, 
+        raise_for_status:bool = True
+    ):
+        result = await cls._request(
+            method = "GET",
+            url = url,
+            headers = headers,
+            params = params,
+            data = data,
+            cache=cache,
+            raise_for_status=raise_for_status,
+        )
+        return result
+    
+    # TODO: _make_post
+    # TODO: _make_put
+    # TODO: _make_delete
+
 
 class RequestManager:
     
