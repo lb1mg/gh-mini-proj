@@ -1,14 +1,5 @@
 # [Bootcamp Mini Project] Github Analytics Project
 
-### TODO 
-- [x] Logging
-- [x] Refactoring to OOP
-- [ ] Tests
-- [ ] Configuration
-- [ ] Docker
-- [ ] ORM/DB support
-- [ ] Manager Refactor
-
 ### Directory Structure
     .
     ├── app
@@ -136,6 +127,15 @@ http://localhost:8000/repo/compare?user1=sanic-org&repo1=sanic&user2=pallets&rep
 
 
 </details>
+
+### TODO 
+- [x] Logging
+- [x] Refactoring to OOP
+- [ ] Tests
+- [ ] Configuration
+- [ ] Docker
+- [ ] ORM/DB support
+- [x] Manager Refactor
 
 ### Misc
 
